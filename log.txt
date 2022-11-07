@@ -1,0 +1,30 @@
+{"message":"TESTING","timestamp":"2022-11-05T23:25:20.743Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:25:20.766Z"}
+{"message":"TESTING","timestamp":"2022-11-05T23:30:30.016Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:30:30.032Z"}
+{"message":"TESTING","timestamp":"2022-11-05T23:33:15.122Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:33:15.138Z"}
+{"message":"TESTING","timestamp":"2022-11-05T23:35:48.992Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:35:49.037Z"}
+{"message":"MYSQL Connected","timestamp":"2022-11-05T23:35:49.096Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:36:30.721Z"}
+{"message":"MYSQL Connected","timestamp":"2022-11-05T23:36:30.778Z"}
+{"message":"MYSQL Connected","timestamp":"2022-11-05T23:36:30.780Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:48:54.748Z"}
+{"message":"MYSQL Connected","timestamp":"2022-11-05T23:48:54.809Z"}
+{"message":"MYSQL Connected","timestamp":"2022-11-05T23:48:54.811Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:49:40.412Z"}
+{"message":"MYSQL Connected","timestamp":"2022-11-05T23:49:40.478Z"}
+{"message":"MYSQL Connected","timestamp":"2022-11-05T23:49:40.480Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:55:35.661Z"}
+{"timestamp":"2022-11-05T23:55:35.721Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:56:26.374Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-05T23:56:26.431Z"}
+{"timestamp":"2022-11-05T23:56:26.434Z"}
+{"message":"Table 'temp' already exists","timestamp":"2022-11-05T23:56:26.434Z"}
+{"message":"Listening on port 3000","timestamp":"2022-11-05T23:57:09.561Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-05T23:57:09.618Z"}
+{"timestamp":"2022-11-05T23:57:09.620Z"}
+{"message":"You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'if not exists (\n                          id int primary key auto_increment,\n   ' at line 1","timestamp":"2022-11-05T23:57:09.620Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-06T00:13:51.212Z"}
+{"timestamp":"2022-11-06T00:13:51.215Z"}
