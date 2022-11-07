@@ -1,54 +1,60 @@
+/* eslint-disable indent */
+
 const fs = require('fs');
 const readLine = require('readline');
-
-
-
-
 /**
- * 
- * @class Logger
- * TODO: Make it a singleton
- * Application of Singleton Desing pattern
+ * Class Logger
  */
 class Logger {
-
-    
+    /**
+       * constructor
+      */
     constructor() {
         this.lineCount = 0;
-     }
-
+    }
+    /**
+     * count
+     * @return {lineCount}
+     */
     count() {
-        let rline = readLine.createInterface({
+        const rline = readLine.createInterface({
             input: fs.createReadStream('./log.txt'),
             output: process.stdout,
-            terminal: false
-        })
+            terminal: false,
+        });
 
-        rline.on('line', (line) => {
+        rline.on('line', () => {
             this.lineCount++;
-        })
+        });
 
         rline.on('close', () => {
             console.log(this.lineCount);
-        })
+        });
 
         return this.lineCount;
-
     }
 
+    /**
+     * log
+     * @param {*} message message passed will be logged in the log.txt
+     */
     log(message) {
         const timestamp = new Date().toISOString();
-        let content = { message, timestamp };
-        content = JSON.stringify(content)+ '\r\n';
+        let content = {message, timestamp};
+        content = JSON.stringify(content) + '\r\n';
         fs.appendFile('log.txt', content, (err) => {
-            if (err)
-                console.log('Error in logger:'+err);
-        })
+            if (err) {
+                console.log('Error in logger:' + err);
+            }
+        });
     }
 }
 
 
 module.exports = class Singleton {
+    /**
+     * constructor
+     */
     constructor() {
         if (!Singleton.instance) {
             Singleton.instance = new Logger();
@@ -56,9 +62,10 @@ module.exports = class Singleton {
     }
 
     /**
- * * Returns the single instance of logger class.
- */
-    getInstance(){
+     * getInstance
+     * @return {Singleton.instance} returns the single instance of logger class
+     */
+    getInstance() {
         return Singleton.instance;
     }
-}
+};
