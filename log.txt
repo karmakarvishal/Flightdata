@@ -49,3 +49,47 @@
 {"message":"Connected to MYSQL Server","timestamp":"2022-11-08T16:44:34.181Z"}
 {"message":[],"timestamp":"2022-11-08T16:44:38.619Z"}
 {"message":[],"timestamp":"2022-11-08T16:45:07.612Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T17:03:57.838Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:03:57.846Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T17:04:04.910Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:04:04.916Z"}
+{"message":{"fatal":true},"timestamp":"2022-11-08T17:04:34.165Z"}
+{"timestamp":"2022-11-08T17:04:34.169Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T17:07:02.983Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:07:02.990Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T17:08:24.430Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:08:24.437Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T17:09:52.443Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:09:52.450Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T17:11:23.672Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:11:23.680Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T17:12:39.453Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:12:56.163Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:13:31.365Z"}
+{"message":[],"timestamp":"2022-11-08T17:13:33.887Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:14:04.615Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:15:33.436Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:15:47.799Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:16:56.567Z"}
+{"message":[],"timestamp":"2022-11-08T17:17:12.623Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:17:24.474Z"}
+{"message":[],"timestamp":"2022-11-08T17:17:27.029Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:17:42.584Z"}
+{"message":[],"timestamp":"2022-11-08T17:17:45.831Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:19:56.041Z"}
+{"message":[],"timestamp":"2022-11-08T17:20:02.702Z"}
+{"message":[],"timestamp":"2022-11-08T17:20:06.244Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:21:57.635Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:22:20.441Z"}
+{"message":[],"timestamp":"2022-11-08T17:22:26.009Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:26:52.013Z"}
+{"message":[],"timestamp":"2022-11-08T17:26:59.358Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:33:15.675Z"}
+{"message":[],"timestamp":"2022-11-08T17:33:38.949Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:34:47.154Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:36:08.847Z"}
+{"message":[],"timestamp":"2022-11-08T17:36:52.024Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:37:26.016Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:39:26.092Z"}
+{"message":[],"timestamp":"2022-11-08T17:39:31.335Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T17:41:09.797Z"}

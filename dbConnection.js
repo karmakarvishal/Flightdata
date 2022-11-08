@@ -6,7 +6,7 @@ const syslog = new Logger().getInstance();
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'password',
+  password: 'karmakar#123',
   database: 'flightdb',
 });
 
@@ -14,8 +14,9 @@ const connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) {
     syslog.log(err.message);
+  } else {
+    syslog.log('Connected to MYSQL Server');
   }
-  syslog.log('Connected to MYSQL Server');
 });
 
 module.exports = connection;

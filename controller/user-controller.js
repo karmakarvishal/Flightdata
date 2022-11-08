@@ -3,16 +3,15 @@ const express = require('express');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 const userService = require('../services/user-service');
-module.exports = router;
 
 
 // Routes for User Controller
 router.get('/:id', getById);
-router.get('/type', getType);
 router.get('/', getAll);
 router.put('/:id', update);
 router.delete('/:id', _delete);
 router.post('/create', create);
+router.post('/utype', types);
 
 // Routes Functions
 
@@ -23,6 +22,7 @@ router.post('/create', create);
  * @param {*} next Next Callable Method
  */
 async function getAll(req, res, next) {
+  console.log('gdggdgs');
   userService.getAll()
       .then((users) => {
         res.send(users);
@@ -66,11 +66,22 @@ function create(req, res, next) {
 
  */
 function getType(req, res, next) {
+  console.log('HIIIII');
   userService.getType().then((userType)=>{
     res.send(userType);
-  }).catch((err)=>{
-    res.send(err);
-  });
+  }).catch((next));
+}
+
+/**
+ * types
+ * @param {*} req Req Body
+ * @param {*} res Response Object
+ * @param {*} next Next Callable Method
+ */
+function types(req, res, next) {
+  userService.getType()
+      .then((users) => res.send({users}))
+      .catch(next);
 }
 
 
@@ -98,3 +109,4 @@ function _delete(req, res, next) {
       .catch(next);
 }
 
+module.exports = router;

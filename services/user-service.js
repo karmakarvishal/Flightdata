@@ -24,8 +24,9 @@ async function getAll() {
     db.query(sql, {}, async (err, res, field) => {
       if (err) {
         syslog.log(err);
+      } else {
+        resolve(res);
       }
-      resolve(res);
     });
   });
 }
@@ -55,8 +56,9 @@ async function getType() {
     db.query(sql, (err, res, fields)=>{
       if (err) {
         reject(err);
+      } else {
+        resolve(res);
       }
-      resolve(res);
     });
   });
 }
@@ -78,8 +80,9 @@ async function create(params) {
       db.query(sql, val, (err, res, fields) => {
         if (err) {
           syslog.log(err);
+        } else {
+          resolve(res);
         }
-        resolve(res);
       });
     } catch (error) {
       reject(error);
@@ -109,8 +112,9 @@ async function update(id, params) {
       db.query(sql, [params, 2], (err, res, fields) => {
         if (err) {
           syslog.log(err);
+        } else {
+          syslog.log(res);
         }
-        syslog.log(res);
       });
     }
   });
@@ -130,8 +134,9 @@ async function _delete(id) {
       db.query(sql, id, (err, res, fields) => {
         if (err) {
           syslog.log(err);
+        } else {
+          syslog.log(res);
         }
-        syslog.log(res);
       });
     }
   });
@@ -152,9 +157,10 @@ async function getUser(id) {
     db.query(sql, id, (err, res, fields) => {
       if (err) {
         syslog.log(err);
+      } else {
+        syslog.log(res);
+        resolve(res);
       }
-      syslog.log(res);
-      resolve(res);
     });
   });
 }
