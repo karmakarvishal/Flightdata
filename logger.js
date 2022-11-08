@@ -59,7 +59,7 @@ class Logger {
      */
     apiLogger(req, res, next) {
         const timestamp = new Date().toISOString();
-        let content = {req, timestamp};
+        let content = {timestamp, req};
         content = JSON.stringify(content, replacerFunc()) + '\r\n';
         fs.appendFile('logAPI.txt', content, (err) => {
             if (err) {
