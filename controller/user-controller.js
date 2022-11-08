@@ -12,7 +12,7 @@ router.put('/:id', update);
 router.delete('/:id', _delete);
 router.post('/create', create);
 router.post('/utype', types);
-
+router.put('/mapping', updateMapping);
 // Routes Functions
 
 /**
@@ -21,8 +21,25 @@ router.post('/utype', types);
  * @param {*} res Response Object
  * @param {*} next Next Callable Method
  */
+async function updateMapping(req, res, next) {
+  userService.updateMapping(req.body.userId, req.body.typeId)
+      .then((users) => {
+        res.send({msg: 'User Mapping Updated'});
+      })
+      .catch((err)=>{
+        console.log(err);
+        res.send({err});
+      });
+}
+
+
+/**
+ * getAll Gets All User
+ * @param {*} req Req Body
+ * @param {*} res Response Object
+ * @param {*} next Next Callable Method
+ */
 async function getAll(req, res, next) {
-  console.log('gdggdgs');
   userService.getAll()
       .then((users) => {
         res.send(users);

@@ -11,6 +11,7 @@ module.exports = {
   update,
   delete: _delete,
   getType,
+  updateMapping,
 };
 
 /**
@@ -105,6 +106,27 @@ async function createMapping(userId, typeId='2') {
       (user_id, usertype_id)
       VALUES (?,?)`;
       db.query(sql, [userId, typeId], (err, res, fields)=>{
+        resolve('User Mapped');
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+/**
+ * updateMapping
+ * @param {*} userId User Object
+ * @param {*} typeId 1-Admin, 2-Normal User
+ * @return {Promise}
+ */
+async function updateMapping(userId, typeId) {
+  return new Promise((resolve, reject)=>{
+    try {
+      const sql = `UPDATE flightdb.User_X_Type
+      SET usertype_id=?
+      WHERE user_id=?`;
+      db.query(sql, [typeId, userId], (err, res, fields)=>{
         resolve('User Mapped');
       });
     } catch (error) {
