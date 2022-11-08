@@ -18,11 +18,8 @@ app.use(cors());
 
 // api routes
 app.use(errorHandler);
+app.use(syslog.apiLogger);
 app.use('/users', userController);
-
-app.get('/', syslog.log, (req, res)=>{
-  res.send('Hello App Flight Project');
-});
 
 // Server
 app.listen(port, ()=>{

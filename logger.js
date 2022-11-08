@@ -35,22 +35,6 @@ class Logger {
         return this.lineCount;
     }
 
-    /**
-     * replacerFunc - Converts Circular JSON to readable format.
-     * @return {Object}
-     */
-    replacerFunc() {
-        const visited = new WeakSet();
-        return (key, value) => {
-          if (typeof value === 'object' && value !== null) {
-            if (visited.has(value)) {
-              return;
-            }
-            visited.add(value);
-          }
-          return value;
-        };
-      };
 
     /**
      * log
@@ -59,12 +43,30 @@ class Logger {
     log(message) {
         const timestamp = new Date().toISOString();
         let content = {message, timestamp};
-        content = JSON.stringify(content, this.replacerFunc()) + '\r\n';
+        content = JSON.stringify(content, replacerFunc()) + '\r\n';
         fs.appendFile('log.txt', content, (err) => {
             if (err) {
                 console.log('Error in logger:' + err);
             }
         });
+    }
+
+    /**
+     * API Logger
+     * @param {*} req
+     * @param {*} res
+     * @param {*} next
+     */
+    apiLogger(req, res, next) {
+        const timestamp = new Date().toISOString();
+        let content = {req, timestamp};
+        content = JSON.stringify(content, replacerFunc()) + '\r\n';
+        fs.appendFile('logAPI.txt', content, (err) => {
+            if (err) {
+                console.log('Error in logger:' + err);
+            }
+        });
+        next();
     }
 }
 
@@ -87,3 +89,21 @@ module.exports = class Singleton {
         return Singleton.instance;
     }
 };
+
+/**
+     * replacerFunc - Converts Circular JSON to readable format.
+     * @return {Object}
+     */
+ function replacerFunc() {
+    const visited = new WeakSet();
+    return (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (visited.has(value)) {
+          return;
+        }
+        visited.add(value);
+      }
+      return value;
+    };
+  };
+

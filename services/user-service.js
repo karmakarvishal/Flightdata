@@ -77,12 +77,35 @@ async function create(params) {
         (name, password, phone, email)
         VALUES(?,?,?,?)`;
 
-      db.query(sql, val, (err, res, fields) => {
+      db.query(sql, val, async (err, res, fields) => {
         if (err) {
           syslog.log(err);
         } else {
+          // Creates Mapping in user_x_type Table;
+          await createMapping(res.insertId);
           resolve(res);
         }
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+/**
+ * createMapping
+ * @param {*} userId User Object
+ * @param {*} typeId 1-Admin, 2-Normal User
+ * @return {Promise}
+ */
+async function createMapping(userId, typeId='2') {
+  return new Promise((resolve, reject)=>{
+    try {
+      const sql = `INSERT INTO flightdb.User_X_Type
+      (user_id, usertype_id)
+      VALUES (?,?)`;
+      db.query(sql, [userId, typeId], (err, res, fields)=>{
+        resolve('User Mapped');
       });
     } catch (error) {
       reject(error);

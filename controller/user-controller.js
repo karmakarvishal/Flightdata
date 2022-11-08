@@ -57,21 +57,6 @@ function create(req, res, next) {
       .catch(next);
 }
 
-
-/**
- * Get Types of Users
- * @param {*} req Req Body
- * @param {*} res Response Object
- * @param {*} next Next Callable Method
-
- */
-function getType(req, res, next) {
-  console.log('HIIIII');
-  userService.getType().then((userType)=>{
-    res.send(userType);
-  }).catch((next));
-}
-
 /**
  * types
  * @param {*} req Req Body
