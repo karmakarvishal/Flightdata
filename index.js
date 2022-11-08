@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const express = require('express');
 // const dbConnection = require('./dbConnection');
 // const airlab = require('./airlabsApi');

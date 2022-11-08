@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-throw-literal */
 const db = require('../dbConnection');
 const Logger = require('../logger');
@@ -9,6 +10,7 @@ module.exports = {
   create,
   update,
   delete: _delete,
+  getType,
 };
 
 /**
@@ -43,6 +45,21 @@ async function getById(id) {
     });
   });
 }
+/**
+ * getType - Type of Users
+ * @return {Promise}
+ */
+async function getType() {
+  return new Promise((resolve, reject)=>{
+    const sql = `Select * From user_type;`;
+    db.query(sql, (err, res, fields)=>{
+      if (err) {
+        reject(err);
+      }
+      resolve(res);
+    });
+  });
+}
 
 
 /**
@@ -51,16 +68,7 @@ async function getById(id) {
  */
 async function create(params) {
   return new Promise(async (resolve, reject) => {
-    // validate
-    params = {
-      id: 1,
-      name: 'Vishal', password: 'root',
-      phone: '5146538200', email: 'abcd@gmail.com',
-    };
-    const user = await getUser(params.id);
-    if (user) {
-      resolve(user);
-    } else {
+    try {
       const val = [params.name, params.password, params.phone, params.email];
 
       const sql = `INSERT INTO flightdb.User
@@ -73,6 +81,8 @@ async function create(params) {
         }
         resolve(res);
       });
+    } catch (error) {
+      reject(error);
     }
   });
 }

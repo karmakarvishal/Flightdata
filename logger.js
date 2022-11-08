@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable indent */
 
 const fs = require('fs');
@@ -35,13 +36,30 @@ class Logger {
     }
 
     /**
+     * replacerFunc - Converts Circular JSON to readable format.
+     * @return {Object}
+     */
+    replacerFunc() {
+        const visited = new WeakSet();
+        return (key, value) => {
+          if (typeof value === 'object' && value !== null) {
+            if (visited.has(value)) {
+              return;
+            }
+            visited.add(value);
+          }
+          return value;
+        };
+      };
+
+    /**
      * log
      * @param {*} message message passed will be logged in the log.txt
      */
     log(message) {
         const timestamp = new Date().toISOString();
         let content = {message, timestamp};
-        content = JSON.stringify(content) + '\r\n';
+        content = JSON.stringify(content, this.replacerFunc()) + '\r\n';
         fs.appendFile('log.txt', content, (err) => {
             if (err) {
                 console.log('Error in logger:' + err);

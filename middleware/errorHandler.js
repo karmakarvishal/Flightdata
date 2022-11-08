@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const Logger = require('../logger');
 const syslog = new Logger().getInstance();
 

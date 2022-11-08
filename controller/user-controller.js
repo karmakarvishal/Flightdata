@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const express = require('express');
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -7,6 +8,7 @@ module.exports = router;
 
 // Routes for User Controller
 router.get('/:id', getById);
+router.get('/type', getType);
 router.get('/', getAll);
 router.put('/:id', update);
 router.delete('/:id', _delete);
@@ -53,6 +55,22 @@ function create(req, res, next) {
   userService.create(req.body)
       .then(() => res.json({message: 'User created'}))
       .catch(next);
+}
+
+
+/**
+ * Get Types of Users
+ * @param {*} req Req Body
+ * @param {*} res Response Object
+ * @param {*} next Next Callable Method
+
+ */
+function getType(req, res, next) {
+  userService.getType().then((userType)=>{
+    res.send(userType);
+  }).catch((err)=>{
+    res.send(err);
+  });
 }
 
 

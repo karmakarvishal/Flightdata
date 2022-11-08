@@ -37,3 +37,15 @@
 {"message":[],"timestamp":"2022-11-08T05:16:01.139Z"}
 {"message":[],"timestamp":"2022-11-08T05:16:12.211Z"}
 {"message":[],"timestamp":"2022-11-08T05:16:18.552Z"}
+{"message":"Access denied for user 'root'@'localhost' (using password: YES)","timestamp":"2022-11-08T05:30:34.942Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T05:30:34.942Z"}
+{"message":{"fatal":true},"timestamp":"2022-11-08T05:32:21.410Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T05:32:57.136Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T15:47:08.773Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T16:39:36.717Z"}
+{"message":[],"timestamp":"2022-11-08T16:43:24.062Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T16:43:56.769Z"}
+{"message":[],"timestamp":"2022-11-08T16:44:01.412Z"}
+{"message":"Connected to MYSQL Server","timestamp":"2022-11-08T16:44:34.181Z"}
+{"message":[],"timestamp":"2022-11-08T16:44:38.619Z"}
+{"message":[],"timestamp":"2022-11-08T16:45:07.612Z"}
