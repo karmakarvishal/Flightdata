@@ -20,7 +20,10 @@ module.exports = {
  */
 async function getAll() {
   return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM flightdb.User`;
+    const sql = `SELECT name,password as pass,phone,email,usertype_id as utype
+    FROM flightdb.User u 
+    LEFT JOIN flightdb.User_X_Type uxt 
+    ON u.id  = uxt.user_id ;`;
 
     db.query(sql, {}, async (err, res, field) => {
       if (err) {

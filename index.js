@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
 // const dbConnection = require('./dbConnection');
-// const airlab = require('./airlabsApi');
+const airlab = require('./airlabsApi');
 const Logger = require('./logger');
 const app = express();
 const cors = require('cors');
