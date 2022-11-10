@@ -12,7 +12,7 @@ const syslog = new Logger().getInstance();
  * @param {*} params Request Params
  * @param {*} _cb Callback Function
  */
-async function apiCall(method, params, _cb) {
+async function apiCall(method, params={}, _cb) {
   return new Promise((resolve, reject)=>{
     try {
       params.api_key = apiKey;

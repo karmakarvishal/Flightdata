@@ -170,7 +170,7 @@ async function update(id, params) {
 
 
 /**
- *
+ * _delete
  * @param {*} id Id of User
  */
 async function _delete(id) {
@@ -192,7 +192,7 @@ async function _delete(id) {
 
 
 /**
- *
+ * getUser
  * @param {*} id Id of user
  * @return {UserObject}
  */

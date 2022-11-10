@@ -20,7 +20,7 @@ app.use(cors());
 app.use(errorHandler);
 app.use(syslog.apiLogger);
 app.use('/users', userController);
-app.use('/flight', airlabsController);
+app.use('/flights', airlabsController);
 
 // Server
 app.listen(port, ()=>{

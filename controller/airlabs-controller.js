@@ -5,7 +5,7 @@ const router = express.Router();
 const airlabsService = require('../airlabsApi');
 
 router.post('/sync', syncData);
-router.post('/flights', flightData);
+router.post('/track', flightData);
 
 
 /**
@@ -27,13 +27,13 @@ async function syncData(req, res, next) {
 
 /**
  * flightData
-* @param {*} req Request
+ * @param {*} req Request
  * @param {*} res Response
  * @param {*} next Next Function
  */
 async function flightData(req, res, next) {
   try {
-    airlabsService.apiCall(req.body.endpoint, req.body.params).then((result)=>{
+    airlabsService.apiCall(req.body.endpoint).then((result)=>{
       res.send(result);
     });
   } catch (error) {
@@ -41,3 +41,4 @@ async function flightData(req, res, next) {
   }
 }
 
+module.exports = router;
