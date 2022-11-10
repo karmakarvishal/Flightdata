@@ -139,14 +139,15 @@ async function fetchAirlines(method='airlines', params={}, _cb) {
   });
 }
 
+
 /**
- * fetchCountries
+ * fetchAirports
  * @param {*} method API Endpoint
  * @param {*} params Req Parameters
  * @param {*} _cb Callback Function
  * @return {Promise}
  */
-async function fetchCountries(method='countries', params={}, _cb) {
+async function fetchAirports(method='airports', params={}, _cb) {
   return new Promise((resolve, reject)=>{
     try {
       params.api_key = apiKey;
@@ -155,17 +156,20 @@ async function fetchCountries(method='countries', params={}, _cb) {
         syslog.log(body);
         const responseData = JSON.parse(body).response;
 
-        const sql = `INSERT INTO flightdb.flight_countries
-          (code, code3, name) VALUES ?;`;
-        const values = [responseData.map((item) => [item.code, item.code3,
-          item.name])];
+        const sql = `INSERT INTO flightdb.flight_airport
+        (name, iata_code, icao_code, lat, lng, city,
+           city_code, un_locode, timezone, country_code)
+         VALUES ?;`;
+        const values = [responseData.map((item) => [item.name, item.iata_code,
+          item.icao_code, item.lat, item.lng, item.city, item.city_code,
+          item.un_locode, item.timezone, item.country_code])];
 
         db.query(sql, values, (err, res, _fields)=>{
           if (err) {
             syslog.log(err);
           } else {
             syslog.log(res);
-            resolve('Countries API fetched');
+            resolve('Airports API fetched');
           }
         });
       });
@@ -174,6 +178,38 @@ async function fetchCountries(method='countries', params={}, _cb) {
     }
   });
 }
+
+/**
+ * get All Airports From DB
+ * @param {*} method API Endpoint
+ * @param {*} params Req Parameters
+ * @param {*} _cb Callback Function
+ * @return {Promise}
+ */
+async function getAirports() {
+  return new Promise((resolve, reject)=>{
+    try {
+      const sql = `SELECT id, name, iata_code, icao_code, lat, lng, city, 
+      city_code, un_locode, timezone, country_code
+      FROM flightdb.flight_airport;`;
+
+
+      db.query(sql, (err, res, _fields)=>{
+        if (err) {
+          syslog.log(err);
+          reject(err);
+        } else {
+          syslog.log(res);
+          resolve({airports: res});
+        }
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+
 /**
  * Sync All API
  */
@@ -192,9 +228,10 @@ async function syncData() {
 module.exports = {
   fetchAirlines,
   fetchFlightsData,
-  fetchCountries,
+  fetchAirports,
   apiCall,
   syncData,
   flightInfo,
+  getAirports,
 };
 

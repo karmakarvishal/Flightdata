@@ -8,6 +8,7 @@ router.post('/sync', syncData);
 router.post('/track', flightData);
 router.post('/info', flightInfo);
 router.post('/delay', flightDelay);
+router.post('/airports', getAirports);
 
 
 /**
@@ -23,6 +24,22 @@ async function syncData(req, res, next) {
     });
   } catch (error) {
     res.send({sync: 'Failed'});
+  }
+}
+
+/**
+ * getAirports
+ * @param {*} req Request
+ * @param {*} res Response
+ * @param {*} next Next Function
+ */
+async function getAirports(req, res, next) {
+  try {
+    airlabsService.getAirports().then((result)=>{
+      res.send(result);
+    });
+  } catch (error) {
+    res.send(error);
   }
 }
 
