@@ -19,7 +19,7 @@ class Logger {
      */
     count() {
         const rline = readLine.createInterface({
-            input: fs.createReadStream('./log.txt'),
+            input: fs.createReadStream('./log.json'),
             output: process.stdout,
             terminal: false,
         });
@@ -44,7 +44,7 @@ class Logger {
         const timestamp = new Date().toISOString();
         let content = {message, timestamp};
         content = JSON.stringify(content, replacerFunc()) + '\r\n';
-        fs.appendFile('log.txt', content, (err) => {
+        fs.appendFile('log.json', content, (err) => {
             if (err) {
                 console.log('Error in logger:' + err);
             }
@@ -61,7 +61,7 @@ class Logger {
         const timestamp = new Date().toISOString();
         let content = {timestamp, req};
         content = JSON.stringify(content, replacerFunc()) + '\r\n';
-        fs.appendFile('logAPI.txt', content, (err) => {
+        fs.appendFile('logAPI.json', content, (err) => {
             if (err) {
                 console.log('Error in logger:' + err);
             }
