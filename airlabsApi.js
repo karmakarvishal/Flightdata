@@ -152,13 +152,26 @@ async function fetchCountries(method='countries', params={}, _cb) {
     }
   });
 }
+/**
+ * Sync All API
+ */
+async function syncData() {
+  return new Promise(async (resolve, reject)=>{
+    try {
+      await fetchAirlines();
+      await fetchFlightsData();
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
 module.exports = {
   fetchAirlines,
   fetchFlightsData,
   fetchCountries,
   apiCall,
+  syncData,
 };
-
-fetchCountries();
 
