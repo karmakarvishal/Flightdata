@@ -35,7 +35,7 @@ async function apiCall(method, params, _cb) {
  * @param {*} _cb Callback Function
  * @return {Promise}
  */
-async function fetchFlightsData(method, params, _cb) {
+async function fetchFlightsData(method='flights', params={}, _cb) {
   return new Promise((resolve, reject)=>{
     try {
       params.api_key = apiKey;
@@ -79,7 +79,7 @@ async function fetchFlightsData(method, params, _cb) {
  * @param {*} _cb Callback Function
  * @return {Promise}
  */
-async function fetchAirlines(method, params, _cb) {
+async function fetchAirlines(method='airlines', params={}, _cb) {
   return new Promise((resolve, reject)=>{
     try {
       params.api_key = apiKey;
@@ -124,7 +124,7 @@ async function fetchAirlines(method, params, _cb) {
  * @param {*} _cb Callback Function
  * @return {Promise}
  */
-async function fetchCountries(method, params, _cb) {
+async function fetchCountries(method='countries', params={}, _cb) {
   return new Promise((resolve, reject)=>{
     try {
       params.api_key = apiKey;
@@ -134,9 +134,9 @@ async function fetchCountries(method, params, _cb) {
         const responseData = JSON.parse(body).response;
 
         const sql = `INSERT INTO flightdb.flight_countries
-          (code, code3, name, population, continent, currency) VALUES ?;`;
+          (code, code3, name) VALUES ?;`;
         const values = [responseData.map((item) => [item.code, item.code3,
-          item.name, '', '', ''])];
+          item.name])];
 
         db.query(sql, values, (err, res, _fields)=>{
           if (err) {
@@ -155,10 +155,10 @@ async function fetchCountries(method, params, _cb) {
 
 module.exports = {
   fetchAirlines,
-  fetchCountries,
   fetchFlightsData,
+  fetchCountries,
   apiCall,
 };
 
-// fetchFlightsData('flights', {});
+fetchCountries();
 
