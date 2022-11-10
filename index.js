@@ -10,6 +10,8 @@ const errorHandler = require('./middleware/errorHandler');
 const userController = require('./controller/user-controller');
 const airlabsController = require('./controller/airlabs-controller');
 const bodyParser = require('body-parser');
+const subject = require('./services/subject');
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.json());
@@ -21,6 +23,11 @@ app.use(errorHandler);
 app.use(syslog.apiLogger);
 app.use('/users', userController);
 app.use('/flights', airlabsController);
+
+subject.init();
+subject.on('start', () => console.log('start'));
+subject.on('error', () => console.log('error'));
+subject.on('end', () => console.log('end'));
 
 // Server
 app.listen(port, ()=>{

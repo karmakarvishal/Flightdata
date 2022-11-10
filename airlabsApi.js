@@ -29,6 +29,28 @@ async function apiCall(method, params={}, _cb) {
 }
 
 /**
+ * flightInfo
+ * @param {*} method Endpoints
+ * @param {*} params Request Params
+ * @param {*} _cb Callback Function
+ */
+async function flightInfo(method, params={}, _cb) {
+  return new Promise((resolve, reject)=>{
+    try {
+      params.api_key = apiKey;
+      request.post({url: `${apiBase}${method}`,
+        form: params}, function(_err, _httpResponse, body) {
+        syslog.log(body);
+        const responseData = JSON.parse(body).response;
+        resolve(responseData);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+/**
  * fetchFlightsData
  * @param {*} method API Endpoint
  * @param {*} params Req Parameters
@@ -173,5 +195,6 @@ module.exports = {
   fetchCountries,
   apiCall,
   syncData,
+  flightInfo,
 };
 
