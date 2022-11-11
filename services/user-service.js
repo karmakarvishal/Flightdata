@@ -103,7 +103,7 @@ async function create(params) {
  * @param {*} typeId 1-Admin, 2-Normal User
  * @return {Promise}
  */
-async function createMapping(userId, typeId='2') {
+async function createMapping(userId, typeId=2) {
   return new Promise((resolve, reject)=>{
     try {
       const sql = `INSERT INTO flightdb.User_X_Type

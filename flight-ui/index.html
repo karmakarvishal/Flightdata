@@ -20,7 +20,11 @@
 </head>
 
 <body ng-app="myApp" ng-controller="AppCtrl">
-    <div class="container box-container" id="container" ng-show="screens.login" style="margin-top: 6.5%;">
+    <div id="preloader"
+        style="	position: fixed;top: 0;left: 0;right: 0;bottom: 0;background-color: #fff; z-index: 9999999">
+        <div id="status">&nbsp;</div>
+    </div>
+    <div class="container box-container" id="container" ng-show="screens.login" style="margin-top: 5%;">
         <div class="form-container sign-up-container">
             <form>
                 <h1 style="font-size: 24px;">Create Account</h1>
@@ -57,7 +61,7 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top: 6.5%;">
+    <div class="row" style="margin-top: 5%; width: 100%; max-width: 1280px;">
         <div class="col-xs-12" ng-show="screens.flight">
             <button type="button" class="btn btn-dark gg-btn" ng-show="userFlightTableScreen.flight"
                 ng-click="displayUsers()">Users</button>
@@ -67,46 +71,55 @@
                 ng-click="displayDelayedFlights()">Delayed Flights</button>
             <div class="col-xs-12 p-0 flights-screen" ng-show="userFlightTableScreen.flight">
                 <div class="delayed-screen-ctn">
-                    <div class="col-xs-4">
-                        <select class="form-select" name="type" ng-model="flightUiEditObject.selectedArrDepType"
-                            ng-init="flightUiEditObject.selectedArrDepType = flightUiEditObject.arrDepType[0]"
-                            ng-change="flightDataChanged()">
-                            <option ng-repeat="item in flightUiEditObject.arrDepType track by $index">{{item}}</option>
-                        </select>
+                    <div class="col-xs-12">
+                        <div class="col-xs-4">
+                            <select class="form-select" name="type" ng-model="flightUiEditObject.selectedArrDepType"
+                                ng-init="flightUiEditObject.selectedArrDepType = flightUiEditObject.arrDepType[0]"
+                                ng-change="flightDataChanged()">
+                                <option ng-repeat="item in flightUiEditObject.arrDepType">{{item}}</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4" id="flight-select-ctn"></div>
+                        <div class="col-xs-4">
+                            <select class="form-select" name="type" ng-model="flightUiEditObject.selectedDelayTimings"
+                                ng-init="flightUiEditObject.selectedDelayTimings = flightUiEditObject.delayTimings[0]"
+                                ng-change="flightDataChanged()">
+                                <option ng-repeat="item in flightUiEditObject.delayTimings">{{item}}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-xs-4" id="flight-select-ctn"></div>
-                    <div class="col-xs-4">
-                        <select class="form-select" name="type" ng-model="flightUiEditObject.selectedDelayTimings"
-                            ng-init="flightUiEditObject.selectedDelayTimings = flightUiEditObject.delayTimings[0]"
-                            ng-change="flightDataChanged()">
-                            <option ng-repeat="item in flightUiEditObject.delayTimings track by $index">{{item}}</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-12 departures">
-                        <div ng-if="flightUiEditObject.flights">
-                            <h1>DEPARTURES</h1>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th id="time">TIME</th>
-                                        <th id="destination">DESTINATION</th>
-                                        <th id="flight">FLIGHT NUMBER</th>
-                                        <th id="gate">GATE</th>
-                                        <th id="remarks">STATUS</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-body">
-                                    <tr ng-repeat="item in flightUiEditObject.arrDepFlightsData track by $index">
-                                        <td>✈</td>
-                                        <td>{{item.time}}</td>
-                                        <td>{{item.destination}}</td>
-                                        <td>{{item.flight}}</td>
-                                        <td>{{item.gate}}</td>
-                                        <td>{{item.remarks}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="col-xs-12">
+                        <div class="departures">
+                            <div ng-if="flightUiEditObject.flights" style="text-align: center;">
+                                <h1 ng-if="flightUiEditObject.selectedArrDepType === 'departures'">DEPARTURES - {{selectedAirLine}}</h1>
+                                <h1 ng-if="flightUiEditObject.selectedArrDepType === 'arrivals'">ARRIVALS - {{selectedAirLine}}</h1>
+                                <table ng-if="flightUiEditObject.arrDepFlightsData.length > 0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30px;"></th>
+                                            <th class="text-center" id="time">TIME</th>
+                                            <th class="text-center" id="destination">DESTINATION</th>
+                                            <th class="text-center" id="flight">FLIGHT NUMBER</th>
+                                            <th class="text-center" id="gate">GATE</th>
+                                            <th class="text-center" id="remarks">STATUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                        <tr ng-repeat="item in flightUiEditObject.arrDepFlightsData track by $index">
+                                            <td class="text-center">✈</td>
+                                            <td class="text-center">{{item.time}}</td>
+                                            <td class="text-center">{{item.destination}}</td>
+                                            <td class="text-center">{{item.flight}}</td>
+                                            <td class="text-center">{{item.gate}}</td>
+                                            <td class="text-center">{{item.remarks}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="no-data col-xs-12" ng-if="flightUiEditObject.arrDepFlightsData.length == 0">
+                            <img src="./assets/images/no-flt-data.PNG" alt="" srcset="">
+                            <h2>No Flight data avaiable !</h2>
                         </div>
                     </div>
                 </div>
@@ -130,9 +143,14 @@
                         <td>{{item.name}}</td>
                         <td>{{item.phone}}</td>
                         <td>{{item.email}}</td>
-                        <td><input type="checkbox" ng-model="item.utype" style="width: auto;"></td>
-                        <td><button type="button" class="btn btn-secondary btn-xs" ng-click="updateUserModal(item)">Save</button>
-                            <button type="button" class="btn btn-danger btn-xs" ng-click="deleteUser(item)">Delete</button></td>
+                        <td><i ng-if="item.utype == 1" class="fa fa-check" aria-hidden="true"></i><i
+                                ng-if="item.utype == 2 || !item.utype" class="fa fa-times" aria-hidden="true"></i>
+                        </td>
+                        <td><button type="button" class="btn btn-secondary btn-xs"
+                                ng-click="updateUserModal(item)">Edit</button>
+                            <button type="button" class="btn btn-danger btn-xs"
+                                ng-click="deleteUser(item)">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -146,17 +164,24 @@
             <div class="modal-header">
                 <h5 class="modal-title">Modal title</h5>
                 <button type="button" class="close modal-cross-btn" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" style="font-size: 25px; margin-right: 10px;">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" placeholder="Name" ng-model="flightUiEditObject.registerUser.name" />
-                <input type="text" placeholder="Email" ng-model="flightUiEditObject.registerUser.email" />
-                <input type="text" placeholder="Phone" ng-model="flightUiEditObject.registerUser.phone" />
-                <input type="password" placeholder="Password" ng-model="flightUiEditObject.registerUser.password" />
+                <label for="Name">Name</label>
+                <input type="text" placeholder="Name" ng-model="flightUiEditObject.currentSelectedUser.name" />
+                <label for="Email">Email</label>
+                <input type="text" placeholder="Email" ng-model="flightUiEditObject.currentSelectedUser.email" />
+                <label for="Phone">Phone</label>
+                <input type="text" placeholder="Phone" ng-model="flightUiEditObject.currentSelectedUser.phone" />
+                <label for="Password">Password</label>
+                <input type="text" placeholder="Password" ng-model="flightUiEditObject.currentSelectedUser.pass" />
+                <label for="userType" style="margin-right: 15px;">Admin Access </label><input
+                    style="position: relative; top: 2px; width: 5%;" name="userType" type="checkbox"
+                    ng-model="flightUiEditObject.currentSelectedUser.isAdminAccess" style="width: auto;">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" ng-click="updateUser()">Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
