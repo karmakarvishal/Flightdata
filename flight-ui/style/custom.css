@@ -19,7 +19,7 @@ h1 {
 }
 
 body {
-    background: #f6f5f7;
+    background: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,7 +111,6 @@ select {
     width: 768px;
     max-width: 100%;
     min-height: 480px;
-    margin-top: 6.5%;
 }
 
 .form-container {
@@ -235,6 +234,8 @@ select {
     font-size: 16px;
     color: #fff;
     max-width: 1080px;
+    margin: auto;
+    margin-top: 15px;
 }
 
 .departures table {
@@ -270,11 +271,11 @@ select {
 }
 
 #time {
-    width: 160px;
+    width: 340px;
 }
 
 #destination {
-    width: 700px;
+    width: 300px;
 }
 
 #flight {
@@ -311,11 +312,48 @@ select {
     padding: 0px 10px;
 }
 
-.flights-screen{
+.flights-screen {
     min-width: 1200px;
     margin: auto;
 }
 
-.bootstrap-select{
+.bootstrap-select {
     width: 100% !important;
+}
+
+.bootstrap-select>.dropdown-toggle {
+    border: 1px solid #efefef;
+    box-shadow: none;
+    background-color: #eee;
+    border-radius: 0px;
+    margin: 8px 0px;
+    padding: 11.5px 15px;
+}
+
+#status {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image: url(../assets/images/black.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -100px 0 0 -100px;
+}
+
+.no-data {
+    width: 100%;
+    /* max-width: 560px; */
+    text-align: center;
+    padding: 30px 0px;
+}
+
+.no-data img {
+    max-width: 400px;
+}
+
+.no-data h2 {
+    font-size: 24px;
+    font-weight: 500;
 }

@@ -2,8 +2,16 @@
 const app = angular.module('myApp', []);
 
 app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flightDataFactory) {
-    $('#myModal').modal('show');
-    $('#myModal').modal('hide');
+    function showLoader() {
+        $('#status').show();/* jshint ignore:line */
+        $('#preloader').show();/* jshint ignore:line */
+    }
+
+    function hideLoader() {
+        $('#status').hide();/* jshint ignore:line */
+        $('#preloader').hide();/* jshint ignore:line */
+    }
+    hideLoader();
     const tableBody = document.getElementById('table-body');
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
@@ -28,7 +36,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                 destination: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_iata.toUpperCase() : flight.arr_iata.toUpperCase(),
                 flight: flight.flight_number.toUpperCase(),
                 gate: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_gate : flight.arr_gate,
-                remarks: flight.status.toUpperCase(),
+                remarks: flight.status.toUpperCase()
             };
             $scope.flightUiEditObject.arrDepFlightsData.push(flightDetails);
             // for (const flightDetail in flightDetails) {
@@ -80,6 +88,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
         delayTimings: ['30', '60', '90', '120', '150', '180', '210'],
         selectedDelayTimings: '30',
         arrDepFlightsData: [],
+        selectedAirLine: ""
     };
 
     function getAllUsers() {
@@ -119,6 +128,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
     };
 
     function getFlightsData() {
+        showLoader();
         const obj = {
             endpoint: 'airlines',
         };
@@ -133,11 +143,12 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                         selectHtml += buildOptions(result[index]);
                     }
                     selectHtml += `</select>`;
-                    console.log($('#flight-select-ctn'));
                     $('#flight-select-ctn').append(selectHtml);
                     $('.selectpicker').selectpicker('refresh');
                     $scope.flightUiEditObject.selectedArrDepType = $scope.flightUiEditObject.arrDepType[0];
                     $scope.flightUiEditObject.selectedDelayTimings = $scope.flightUiEditObject.delayTimings[0];
+                    $scope.selectedAirLine = result[0].name;
+                    hideLoader();
                 }
             }).catch(function (ex) {
                 console.log('ex: ', ex);
@@ -145,6 +156,9 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
     }
 
     $scope.flightDataChanged = function () {
+        $scope.flightUiEditObject.arrDepFlightsData = [];
+        showLoader();
+        $scope.selectedAirLine = $('#flight-select-picker').val();
         const obj = {
             endpoint: 'delays',
             type: $scope.flightUiEditObject.selectedArrDepType,
@@ -155,11 +169,11 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
         console.log(obj);
         flightDataFactory.getDelaysData(obj)
             .then(function (result) {
-                $scope.flightUiEditObject.populateTable = [];
                 console.log('getDelaysData: ', result);
                 if (result.length > 0) {
                     populateTable(result);
                 }
+                hideLoader();
             })
             .catch(function (ex) {
                 console.log(ex);
@@ -168,21 +182,6 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
 
     $(document).on('change', '#flight-select-picker', function () {
         $scope.flightDataChanged();
-        // $scope.flightUiEditObject.selectedFlight = {
-        //     endpoint: "flight",
-        //     iata_code: ($('#flight-select-picker').find(":selected").attr('data-iata_code')) ? $('#flight-select-picker').find(":selected").attr('data-iata_code') : "",
-        //     icao_code: ($('#flight-select-picker').find(":selected").attr('data-icao_code')) ? $('#flight-select-picker').find(":selected").attr('data-icao_code') : ""
-        // };
-        // if ($scope.flightUiEditObject.selectedFlight) {
-        //     console.log($scope.flightUiEditObject.selectedFlight);
-        //     flightDataFactory.getFlightsDetails($scope.flightUiEditObject.selectedFlight)
-        //         .then(function (result) {
-        //             console.log("selected flight result: ", result);
-        //         })
-        //         .catch(function (ex) {
-        //             console.log(ex);
-        //         });
-        // }
     });
 
     $scope.signIn = function () {
@@ -212,6 +211,51 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
         flightDataFactory.deleteUser(user.id)
             .then(function (result) {
                 console.log(result);
+                getAllUsers();
+            })
+            .catch(function (ex) {
+                console.log(ex);
+            });
+    };
+    $scope.updateUserModal = function (user) {
+        if (user.utype == 1) {
+            user.isAdminAccess = true;
+        }
+        else {
+            user.isAdminAccess = false;
+        }
+        $scope.flightUiEditObject.currentSelectedUser = user;
+        $('#myModal').modal('show');
+    };
+    $scope.updateUser = function () {
+        if ($scope.flightUiEditObject.currentSelectedUser.isAdminAccess) {
+            $scope.flightUiEditObject.currentSelectedUser.utype = 1;
+        }
+        else {
+            $scope.flightUiEditObject.currentSelectedUser.utype = 2;
+        }
+        var updateObject = {
+            id: $scope.flightUiEditObject.currentSelectedUser.id,
+            name: $scope.flightUiEditObject.currentSelectedUser.name,
+            password: $scope.flightUiEditObject.currentSelectedUser.pass,
+            phone: $scope.flightUiEditObject.currentSelectedUser.phone,
+            email: $scope.flightUiEditObject.currentSelectedUser.email
+        }
+        flightDataFactory.updateUser(updateObject)
+            .then(function (result) {
+                console.log("updateUser: ", result);
+                var obj = {
+                    userId: $scope.flightUiEditObject.currentSelectedUser.id,
+                    typeId: $scope.flightUiEditObject.currentSelectedUser.utype
+                };
+                flightDataFactory.updateMapping(obj)
+                    .then(function (result) {
+                        console.log("updateMapping: ", result);
+                        getAllUsers();
+                    })
+                    .catch(function (ex) {
+                        console.log(ex);
+                    });
                 getAllUsers();
             })
             .catch(function (ex) {

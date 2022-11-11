@@ -40,6 +40,42 @@ app.factory("flightDataFactory", ["$http", "$q", function ($http, $q) {
         return deferred.promise;
     };
 
+    factory.updateUser = function (user) {
+        var deferred = $q.defer();
+        /* Local callback for success */
+        var createSuccess = function (result) {
+            /* Resolve the promise */
+            deferred.resolve(result.data);
+        };
+        /* Local callback for error */
+        var createError = function (ex) {
+            /* Reject the promise there was a problem */
+            deferred.reject(ex.data);
+        };
+        $http.put(apiPath + "/" + user.id, user)
+            .then(createSuccess, createError);
+        /* Return the promise to the caller */
+        return deferred.promise;
+    };
+
+    factory.updateMapping = function (obj) {
+        var deferred = $q.defer();
+        /* Local callback for success */
+        var createSuccess = function (result) {
+            /* Resolve the promise */
+            deferred.resolve(result.data);
+        };
+        /* Local callback for error */
+        var createError = function (ex) {
+            /* Reject the promise there was a problem */
+            deferred.reject(ex.data);
+        };
+        $http.put(apiPath + "/mapping", obj)
+            .then(createSuccess, createError);
+        /* Return the promise to the caller */
+        return deferred.promise;
+    };
+
     factory.registerUser = function (user) {
         var deferred = $q.defer();
         /* Local callback for success */
