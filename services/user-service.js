@@ -20,7 +20,7 @@ module.exports = {
  */
 async function getAll() {
   return new Promise((resolve, reject) => {
-    const sql = `SELECT id,name,password as pass,phone,email,
+    const sql = `SELECT u.id,name,password as pass,phone,email,
     usertype_id as utype
     FROM flightdb.User u 
     LEFT JOIN flightdb.User_X_Type uxt 
@@ -151,18 +151,13 @@ async function update(id, params) {
     const sql = `UPDATE flightdb.User
     SET ? WHERE id = ?`;
 
-    // Params should be something like this
-    params = {
-      name: 'VishalKarmakar', password: 'root123',
-      phone: '5146538201', email: 'abcde@gmail.com',
-    };
-
     if (user) {
       db.query(sql, [params, 2], (err, res, fields) => {
         if (err) {
           syslog.log(err);
         } else {
           syslog.log(res);
+          resolve();
         }
       });
     }
@@ -185,6 +180,7 @@ async function _delete(id) {
           syslog.log(err);
         } else {
           syslog.log(res);
+          resolve();
         }
       });
     }
