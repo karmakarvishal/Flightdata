@@ -4,13 +4,14 @@ const express = require('express');
 const Logger = require('./logger');
 const app = express();
 const cors = require('cors');
-const port = 3000;
 const syslog = new Logger().getInstance();
 const errorHandler = require('./middleware/errorHandler');
 const userController = require('./controller/user-controller');
 const airlabsController = require('./controller/airlabs-controller');
 const bodyParser = require('body-parser');
-const subject = require('./services/subject');
+const ETimer = require('./_utils/timer');
+const SyncFlights = require('./_utils/observer');
+require('dotenv').config();
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -24,12 +25,13 @@ app.use(syslog.apiLogger);
 app.use('/users', userController);
 app.use('/flights', airlabsController);
 
-subject.init();
-subject.on('start', () => console.log('start'));
-subject.on('error', () => console.log('error'));
-subject.on('end', () => console.log('end'));
+
+const time = new ETimer();
+time.addObserver(new SyncFlights());
+const intrvl = 1000*30*2;
+time.run(intrvl);
 
 // Server
-app.listen(port, ()=>{
-  console.log(`Listening on port ${port}`);
+app.listen(process.env.PORT, ()=>{
+  console.log(`Listening on port ${process.env.PORT}`);
 });
