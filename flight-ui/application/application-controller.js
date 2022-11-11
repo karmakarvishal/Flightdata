@@ -1,6 +1,7 @@
-var app = angular.module('myApp', []);
+/* eslint-disable*/
+const app = angular.module('myApp', []);
 
-app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flightDataFactory) {
+app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flightDataFactory) {
     $('#myModal').modal('show');
     $('#myModal').modal('hide');
     const tableBody = document.getElementById('table-body');
@@ -9,25 +10,25 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
     const container = document.getElementById('container');
 
     signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
+        container.classList.add('right-panel-active');
     });
 
     signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
+        container.classList.remove('right-panel-active');
     });
     const populateTable = (flights) => {
         for (const flight of flights) {
             const tableRow = document.createElement('tr');
             const tableIcon = document.createElement('td');
-            tableIcon.textContent = "✈";
+            tableIcon.textContent = '✈';
             tableRow.append(tableIcon);
 
             const flightDetails = {
-                time: ($scope.flightUiEditObject.selectedArrDepType === "departures") ? flight.arr_time : flight.dep_time,
-                destination: ($scope.flightUiEditObject.selectedArrDepType === "departures") ? flight.dep_iata.toUpperCase() : flight.arr_iata.toUpperCase(),
+                time: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.arr_time : flight.dep_time,
+                destination: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_iata.toUpperCase() : flight.arr_iata.toUpperCase(),
                 flight: flight.flight_number.toUpperCase(),
-                gate: ($scope.flightUiEditObject.selectedArrDepType === "departures") ? flight.dep_gate : flight.arr_gate,
-                remarks: flight.status.toUpperCase()
+                gate: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_gate : flight.arr_gate,
+                remarks: flight.status.toUpperCase(),
             };
             $scope.flightUiEditObject.arrDepFlightsData.push(flightDetails);
             // for (const flightDetail in flightDetails) {
@@ -47,39 +48,38 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
             // }
             // tableBody.append(tableRow)
         }
-
-    }
+    };
     $scope.screens = {
         login: true,
-        flight: false
+        flight: false,
     };
     $scope.userFlightTableScreen = {
         user: false,
-        flight: true
+        flight: true,
     };
     $scope.flightUiEditObject = {
         usersList: [],
         userTypes: [],
         registerUser: {
-            name: "",
-            email: "",
-            phone: "",
-            password: ""
+            name: '',
+            email: '',
+            phone: '',
+            password: '',
         },
         loginUser: {
-            email: "",
-            password: ""
+            email: '',
+            password: '',
         },
         currentLoggedInUser: {},
         currentSelectedUser: {},
         flights: [],
         selectedFlight: {},
         selectedFlightDetails: {},
-        arrDepType: ["departures", "arrivals"],
-        selectedArrDepType: "departures",
-        delayTimings: ["30", "60", "90", "120", "150", "180", "210"],
-        selectedDelayTimings: "30",
-        arrDepFlightsData: []
+        arrDepType: ['departures', 'arrivals'],
+        selectedArrDepType: 'departures',
+        delayTimings: ['30', '60', '90', '120', '150', '180', '210'],
+        selectedDelayTimings: '30',
+        arrDepFlightsData: [],
     };
 
     function getAllUsers() {
@@ -90,7 +90,7 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
                     console.log($scope.flightUiEditObject.usersList);
                 }
             }).catch(function (ex) {
-                console.log("ex: ", ex);
+                console.log('ex: ', ex);
             });
     }
 
@@ -101,16 +101,16 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
             }
             getAllUsers();
         }).catch(function (ex) {
-            console.log("ex: ", ex);
+            console.log('ex: ', ex);
         });
 
     $scope.signUp = function () {
         if ($scope.flightUiEditObject.registerUser) {
             flightDataFactory.registerUser($scope.flightUiEditObject.registerUser)
                 .then(function (result) {
-                    console.log("registerUser: ", result);
+                    console.log('registerUser: ', result);
                     getAllUsers();
-                    container.classList.remove("right-panel-active");
+                    container.classList.remove('right-panel-active');
                 })
                 .catch(function (ex) {
                     console.log(ex);
@@ -119,44 +119,44 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
     };
 
     function getFlightsData() {
-        var obj = {
-            endpoint: "airlines"
+        const obj = {
+            endpoint: 'airlines',
         };
         flightDataFactory.getFlightsData(obj)
             .then(function (result) {
                 if (result) {
                     function buildOptions(result) {
-                        return `<option data-iata_code="${result.iata_code}" data-icao_code="${result.icao_code}">${result.name}</option>`
+                        return `<option data-iata_code="${result.iata_code}" data-icao_code="${result.icao_code}">${result.name}</option>`;
                     }
-                    var selectHtml = `<select class="selectpicker" id="flight-select-picker" data-show-subtext="true" data-live-search="true">`;
+                    let selectHtml = `<select class="selectpicker" id="flight-select-picker" data-show-subtext="true" data-live-search="true">`;
                     for (let index = 0; index < result.length; index++) {
                         selectHtml += buildOptions(result[index]);
                     }
                     selectHtml += `</select>`;
-                    console.log($("#flight-select-ctn"));
-                    $("#flight-select-ctn").append(selectHtml);
-                    $(".selectpicker").selectpicker('refresh');
+                    console.log($('#flight-select-ctn'));
+                    $('#flight-select-ctn').append(selectHtml);
+                    $('.selectpicker').selectpicker('refresh');
                     $scope.flightUiEditObject.selectedArrDepType = $scope.flightUiEditObject.arrDepType[0];
                     $scope.flightUiEditObject.selectedDelayTimings = $scope.flightUiEditObject.delayTimings[0];
                 }
             }).catch(function (ex) {
-                console.log("ex: ", ex);
+                console.log('ex: ', ex);
             });
     }
 
     $scope.flightDataChanged = function () {
-        var obj = {
-            endpoint: "delays",
+        const obj = {
+            endpoint: 'delays',
             type: $scope.flightUiEditObject.selectedArrDepType,
             delay: String($scope.flightUiEditObject.selectedDelayTimings),
-            airline_icao: ($('#flight-select-picker').find(":selected").attr('data-icao_code')) ? $('#flight-select-picker').find(":selected").attr('data-icao_code') : "",
-            airline_iata: ($('#flight-select-picker').find(":selected").attr('data-iata_code')) ? $('#flight-select-picker').find(":selected").attr('data-iata_code') : "",
+            airline_icao: ($('#flight-select-picker').find(':selected').attr('data-icao_code')) ? $('#flight-select-picker').find(':selected').attr('data-icao_code') : '',
+            airline_iata: ($('#flight-select-picker').find(':selected').attr('data-iata_code')) ? $('#flight-select-picker').find(':selected').attr('data-iata_code') : '',
         };
         console.log(obj);
         flightDataFactory.getDelaysData(obj)
             .then(function (result) {
                 $scope.flightUiEditObject.populateTable = [];
-                console.log("getDelaysData: ", result);
+                console.log('getDelaysData: ', result);
                 if (result.length > 0) {
                     populateTable(result);
                 }
@@ -166,7 +166,7 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
             });
     };
 
-    $(document).on("change", "#flight-select-picker", function () {
+    $(document).on('change', '#flight-select-picker', function () {
         $scope.flightDataChanged();
         // $scope.flightUiEditObject.selectedFlight = {
         //     endpoint: "flight",
@@ -189,7 +189,7 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
         if ($scope.flightUiEditObject.loginUser) {
             for (let index = 0; index < $scope.flightUiEditObject.usersList.length; index++) {
                 if (($scope.flightUiEditObject.usersList[index].email.toLowerCase() == $scope.flightUiEditObject.loginUser.email.toLowerCase()) && ($scope.flightUiEditObject.usersList[index].pass == $scope.flightUiEditObject.loginUser.password)) {
-                    //show flight data screen
+                    // show flight data screen
                     $scope.flightUiEditObject.currentLoggedInUser = $scope.flightUiEditObject.usersList[index];
                     $scope.screens.login = false;
                     $scope.screens.flight = true;
@@ -208,7 +208,7 @@ app.controller("AppCtrl", ["$scope", "flightDataFactory", function ($scope, flig
         $scope.userFlightTableScreen.flight = true;
         $scope.userFlightTableScreen.user = false;
     };
-    $scope.deleteUser = function(user){
+    $scope.deleteUser = function (user) {
         flightDataFactory.deleteUser(user.id)
             .then(function (result) {
                 console.log(result);

@@ -1,3 +1,4 @@
+/* eslint-disable*/
 app.factory("flightDataFactory", ["$http", "$q", function ($http, $q) {
     var apiPath = "http://localhost:3000/users";
     var apiPathFlight = "http://localhost:3000/flights";
