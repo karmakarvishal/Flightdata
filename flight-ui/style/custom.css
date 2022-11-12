@@ -291,7 +291,7 @@ select {
 
 .gg-btn {
     position: absolute;
-    right: 17px;
+    right: 30px;
     top: -50px;
     border-radius: 8px;
 }
@@ -333,6 +333,10 @@ select {
     padding: 11.5px 15px;
 }
 
+.bootstrap-select>.dropdown-toggle>span {
+    font-size: 14px !important;
+}
+
 #status {
     width: 200px;
     height: 200px;
@@ -366,4 +370,18 @@ select {
     font-weight: 600;
     font-size: 36px;
     margin: 20px 0px;
+}
+
+.button-ctn {
+    position: relative;
+}
+
+.logout-btn {
+    position: absolute;
+    right: 0px;
+    top: -40px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
