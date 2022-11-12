@@ -25,36 +25,47 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
         container.classList.remove('right-panel-active');
     });
     const populateTable = (flights) => {
+        $(".tbl-row-flight").remove();
         for (const flight of flights) {
             const tableRow = document.createElement('tr');
+            tableRow.classList.add('tbl-row-flight');
             const tableIcon = document.createElement('td');
             tableIcon.textContent = '✈';
             tableRow.append(tableIcon);
 
             const flightDetails = {
-                time: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.arr_time : flight.dep_time,
+                time: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_time : flight.arr_time,
                 destination: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_iata.toUpperCase() : flight.arr_iata.toUpperCase(),
                 flight: flight.flight_number.toUpperCase(),
                 gate: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_gate : flight.arr_gate,
                 remarks: flight.status.toUpperCase()
             };
-            $scope.flightUiEditObject.arrDepFlightsData.push(flightDetails);
-            // for (const flightDetail in flightDetails) {
-            //     const tableCell = document.createElement('td')
-            //     const word = Array.from(flightDetails[flightDetail])
+            flightDetails.time = flightDetails.time ? flightDetails.time : "--";
+            flightDetails.destination = flightDetails.destination ? flightDetails.destination : "--";
+            flightDetails.flight = flightDetails.flight ? flightDetails.flight : "--";
+            flightDetails.gate = flightDetails.gate ? flightDetails.gate : "--";
+            flightDetails.remarks = flightDetails.remarks ? flightDetails.remarks : "--";
+            try {
+                var i = 0;
+                for (var flightDetail in flightDetails) {
+                    const tableCell = document.createElement('td');
+                    var word = Array.from(flightDetails[flightDetail]);
+                    for (const [index, letter] of word.entries()) {
+                        const letterElement = document.createElement('div');
 
-            //     for (const [index, letter] of word.entries()) {
-            //         const letterElement = document.createElement('div')
-
-            //         setTimeout(() => {
-            //             letterElement.classList.add('flip')
-            //             letterElement.textContent = letter
-            //             tableCell.append(letterElement)
-            //         }, 100 * index)
-            //     }
-            //     tableRow.append(tableCell)
-            // }
-            // tableBody.append(tableRow)
+                        setTimeout(() => {
+                            letterElement.classList.add('flip');
+                            letterElement.textContent = letter;
+                            tableCell.append(letterElement);
+                        }, 100 * index)
+                    }
+                    tableRow.append(tableCell);
+                    i++;
+                }
+                tableBody.append(tableRow);
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
     $scope.screens = {
@@ -148,6 +159,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                     $scope.flightUiEditObject.selectedArrDepType = $scope.flightUiEditObject.arrDepType[0];
                     $scope.flightUiEditObject.selectedDelayTimings = $scope.flightUiEditObject.delayTimings[0];
                     $scope.selectedAirLine = result[0].name;
+                    $scope.flightDataChanged();
                     hideLoader();
                 }
             }).catch(function (ex) {
@@ -172,6 +184,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                 console.log('getDelaysData: ', result);
                 if (result.length > 0) {
                     populateTable(result);
+                    $scope.flightUiEditObject.arrDepFlightsData = result;
                 }
                 hideLoader();
             })
