@@ -64,7 +64,6 @@ button {
     font-weight: bold;
     padding: 12px 45px;
     letter-spacing: 1px;
-    text-transform: uppercase;
     transition: transform 80ms ease-in;
 }
 
@@ -271,11 +270,11 @@ select {
 }
 
 #time {
-    width: 340px;
+    width: 535px;
 }
 
 #destination {
-    width: 300px;
+    width: 215px;
 }
 
 #flight {
@@ -305,6 +304,10 @@ select {
 
 .p-0 {
     padding: 0px !important;
+}
+
+.m-0 {
+    margin: 0px !important;
 }
 
 .bootstrap-select.btn-group .dropdown-menu li a {
@@ -356,4 +359,11 @@ select {
 .no-data h2 {
     font-size: 24px;
     font-weight: 500;
+}
+
+.flt-head {
+    text-align: center;
+    font-weight: 600;
+    font-size: 36px;
+    margin: 20px 0px;
 }
