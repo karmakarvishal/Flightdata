@@ -1,7 +1,7 @@
 /* eslint-disable*/
 const app = angular.module('myApp', []);
 
-app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flightDataFactory) {
+app.controller('AppCtrl', ['$scope', 'flightDataFactory', '$timeout', function ($scope, flightDataFactory, $timeout) {
     try {
         function showLoader() {
             $('#status').show();/* jshint ignore:line */
@@ -74,6 +74,10 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
             user: false,
             flight: true,
         };
+        $scope.objValidation = {
+            show: false,
+            message: ""
+        }
         $scope.flightUiEditObject = {
             usersList: [],
             userTypes: [],
@@ -99,7 +103,12 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
             arrDepFlightsData: [],
             selectedAirLine: ""
         };
-
+        function hideToaster() {
+            $timeout(function () {
+                $scope.objValidation.show = false;
+                $scope.objValidation.message = "";
+            }, 2000);
+        }
         function getAllUsers() {
             flightDataFactory.getAllUsers()
                 .then(function (result) {
@@ -197,6 +206,11 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                         getFlightsData();
                         // populateTable($scope.flights);
                         break;
+                    }
+                    else {
+                        $scope.objValidation.show = true;
+                        $scope.objValidation.message = "Invalid Email or Password";
+                        hideToaster();
                     }
                 }
             }

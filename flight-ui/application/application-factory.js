@@ -70,7 +70,7 @@ app.factory("flightDataFactory", ["$http", "$q", function ($http, $q) {
             /* Reject the promise there was a problem */
             deferred.reject(ex.data);
         };
-        $http.put(apiPath + "/mapping", obj)
+        $http.post(apiPath + "/mapping", obj)
             .then(createSuccess, createError);
         /* Return the promise to the caller */
         return deferred.promise;
