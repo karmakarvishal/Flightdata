@@ -153,7 +153,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in flightUiEditObject.usersList track by $index">
+                    <tr ng-repeat="item in flightUiEditObject.usersList track by $index"
+                        ng-hide="item.id == flightUiEditObject.currentLoggedInUser.id">
                         <th scope="row">{{$index + 1}}</th>
                         <td>{{item.name}}</td>
                         <td>{{item.phone}}</td>

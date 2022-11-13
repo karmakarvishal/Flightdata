@@ -26,6 +26,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
             container.classList.remove('right-panel-active');
         });
         const populateTable = (flights) => {
+            console.log("populate table: ", flights);
             $(".tbl-row-flight").remove();
             for (const flight of flights) {
                 const tableRow = document.createElement('tr');
@@ -104,7 +105,6 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                 .then(function (result) {
                     if (result) {
                         $scope.flightUiEditObject.usersList = result;
-                        console.log($scope.flightUiEditObject.usersList);
                     }
                 }).catch(function (ex) {
                     console.log('ex: ', ex);
@@ -116,7 +116,6 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
             if ($scope.flightUiEditObject.registerUser) {
                 flightDataFactory.registerUser($scope.flightUiEditObject.registerUser)
                     .then(function (result) {
-                        console.log('registerUser: ', result);
                         getAllUsers();
                         container.classList.remove('right-panel-active');
                     })
@@ -167,10 +166,8 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                 airline_icao: ($('#flight-select-picker').find(':selected').attr('data-icao_code')) ? $('#flight-select-picker').find(':selected').attr('data-icao_code') : '',
                 airline_iata: ($('#flight-select-picker').find(':selected').attr('data-iata_code')) ? $('#flight-select-picker').find(':selected').attr('data-iata_code') : '',
             };
-            console.log(obj);
             flightDataFactory.getDelaysData(obj)
                 .then(function (result) {
-                    console.log('getDelaysData: ', result);
                     if (result.length > 0) {
                         populateTable(result);
                         $scope.flightUiEditObject.arrDepFlightsData = result;
@@ -196,7 +193,6 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                         $scope.screens.flight = true;
                         $scope.flightUiEditObject.currentLoggedInUser.sessionStart = new Date();
                         $scope.flightUiEditObject.currentLoggedInUser.screen = $scope.screens;
-                        console.log("$scope.flightUiEditObject.currentLoggedInUser", $scope.flightUiEditObject.currentLoggedInUser);
                         localStorage.setItem("currentuser", JSON.stringify($scope.flightUiEditObject.currentLoggedInUser));
                         getFlightsData();
                         // populateTable($scope.flights);
@@ -218,7 +214,6 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
         $scope.deleteUser = function (user) {
             flightDataFactory.deleteUser(user.id)
                 .then(function (result) {
-                    console.log(result);
                     getAllUsers();
                 })
                 .catch(function (ex) {
@@ -249,6 +244,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                 phone: $scope.flightUiEditObject.currentSelectedUser.phone,
                 email: $scope.flightUiEditObject.currentSelectedUser.email
             }
+            console.log("updateObject send", updateObject);
             flightDataFactory.updateUser(updateObject)
                 .then(function (result) {
                     console.log("updateUser: ", result);
@@ -259,11 +255,11 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                     flightDataFactory.updateMapping(obj)
                         .then(function (result) {
                             console.log("updateMapping: ", result);
+                            getAllUsers();
                         })
                         .catch(function (ex) {
                             console.log(ex);
                         });
-                    getAllUsers();
                 })
                 .catch(function (ex) {
                     console.log(ex);
@@ -275,7 +271,6 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
             if (obj) {
                 var diffMilliseconds = new Date() - new Date(obj.sessionStart);
                 var diffMin = diffMilliseconds / 60000;
-                console.log(obj, diffMin);
                 if (diffMin > 10) {
                     $scope.screens = {
                         login: true,
@@ -283,6 +278,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', function ($scope, flig
                     };
                 }
                 else {
+                    $scope.flightUiEditObject.currentLoggedInUser = obj;
                     $scope.screens = obj.screen;
                     var currentScreen = JSON.parse(localStorage.getItem("currentScreen"));
                     if (currentScreen.flight) {
