@@ -12,7 +12,7 @@ router.put('/:id', update);
 router.delete('/:id', _delete);
 router.post('/create', create);
 router.post('/utype', types);
-router.put('/mapping', updateMapping);
+router.post('/mapping', updateMapping);
 // Routes Functions
 
 /**

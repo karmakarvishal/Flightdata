@@ -85,6 +85,7 @@ async function create(params) {
       db.query(sql, val, async (err, res, fields) => {
         if (err) {
           syslog.log(err);
+          reject(error);
         } else {
           // Creates Mapping in user_x_type Table;
           await createMapping(res.insertId);
@@ -152,7 +153,7 @@ async function update(id, params) {
     SET ? WHERE id = ?`;
 
     if (user) {
-      db.query(sql, [params, 2], (err, res, fields) => {
+      db.query(sql, [params, id], (err, res, fields) => {
         if (err) {
           syslog.log(err);
         } else {
