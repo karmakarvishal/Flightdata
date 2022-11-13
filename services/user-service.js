@@ -56,9 +56,9 @@ async function getById(id) {
  * @return {Promise}
  */
 async function getType() {
-  return new Promise((resolve, reject)=>{
+  return new Promise((resolve, reject) => {
     const sql = `Select * From user_type;`;
-    db.query(sql, (err, res, fields)=>{
+    db.query(sql, (err, res, fields) => {
       if (err) {
         reject(err);
       } else {
@@ -103,13 +103,13 @@ async function create(params) {
  * @param {*} typeId 1-Admin, 2-Normal User
  * @return {Promise}
  */
-async function createMapping(userId, typeId=2) {
-  return new Promise((resolve, reject)=>{
+async function createMapping(userId, typeId = 2) {
+  return new Promise((resolve, reject) => {
     try {
       const sql = `INSERT INTO flightdb.User_X_Type
       (user_id, usertype_id)
       VALUES (?,?)`;
-      db.query(sql, [userId, typeId], (err, res, fields)=>{
+      db.query(sql, [userId, typeId], (err, res, fields) => {
         resolve('User Mapped');
       });
     } catch (error) {
@@ -125,12 +125,12 @@ async function createMapping(userId, typeId=2) {
  * @return {Promise}
  */
 async function updateMapping(userId, typeId) {
-  return new Promise((resolve, reject)=>{
+  return new Promise((resolve, reject) => {
     try {
       const sql = `UPDATE flightdb.User_X_Type
       SET usertype_id=?
       WHERE user_id=?`;
-      db.query(sql, [typeId, userId], (err, res, fields)=>{
+      db.query(sql, [typeId, userId], (err, res, fields) => {
         resolve('User Mapped');
       });
     } catch (error) {
@@ -146,7 +146,7 @@ async function updateMapping(userId, typeId) {
  * @param {*} params params of user
  */
 async function update(id, params) {
-  return new Promise(async (resolve, reject)=>{
+  return new Promise(async (resolve, reject) => {
     const user = await getUser(id);
     const sql = `UPDATE flightdb.User
     SET ? WHERE id = ?`;
@@ -170,17 +170,25 @@ async function update(id, params) {
  * @param {*} id Id of User
  */
 async function _delete(id) {
-  return new Promise(async (resolve, reject)=>{
+  return new Promise(async (resolve, reject) => {
     const user = await getUser(id);
     if (user) {
-      const sql = `DELETE FROM flightdb.User
-  WHERE id=?`;
+      const sql = `DELETE FROM flightdb.User_X_Type
+  WHERE user_id=?`;
       db.query(sql, id, (err, res, fields) => {
         if (err) {
           syslog.log(err);
         } else {
-          syslog.log(res);
-          resolve();
+          const sql = `DELETE FROM flightdb.User
+  WHERE id=?`;
+          db.query(sql, id, (err, res, fields) => {
+            if (err) {
+              syslog.log(err);
+            } else {
+              syslog.log(res);
+              resolve();
+            }
+          });
         }
       });
     }
