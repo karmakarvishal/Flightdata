@@ -6,7 +6,7 @@ const syslog = new Logger().getInstance();
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'password',
+  password: 'karmakar#123',
   database: 'flightdb',
 });
 
