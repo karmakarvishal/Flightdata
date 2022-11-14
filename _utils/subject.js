@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+
 /**
  * Subject which emits some event
  */
