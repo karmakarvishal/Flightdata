@@ -28,7 +28,7 @@ app.use('/flights', airlabsController);
 
 const time = new ETimer();
 time.addObserver(new SyncFlights());
-const intrvl = 1000*30*2;
+const intrvl = process.env.INTERVAL;
 time.run(intrvl);
 
 // Server

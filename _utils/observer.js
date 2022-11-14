@@ -62,6 +62,18 @@ class SyncFlights extends Observer {
     }).catch((err)=>{
       console.log('Error in Sync', err);
     });
+
+    airlabsService.fetchAirports().then((res)=>{
+      console.log('Airports Fetched', res);
+    }).catch((err)=>{
+      console.log('Error in Sync', err);
+    });
+
+    airlabsService.fetchAirlines().then((res)=>{
+      console.log('Airlines Fetched', res);
+    }).catch((err)=>{
+      console.log('Error in Sync', err);
+    });
   }
 }
 

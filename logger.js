@@ -19,7 +19,7 @@ class Logger {
      */
     count() {
         const rline = readLine.createInterface({
-            input: fs.createReadStream('./log.json'),
+            input: fs.createReadStream('./log.txt'),
             output: process.stdout,
             terminal: false,
         });
@@ -44,7 +44,7 @@ class Logger {
         const timestamp = new Date().toISOString();
         let content = {message, timestamp};
         content = JSON.stringify(content, replacerFunc()) + '\r\n';
-        fs.appendFile('log.json', content, (err) => {
+        fs.appendFile('log.txt', content, (err) => {
             if (err) {
                 console.log('Error in logger:' + err);
             }
@@ -61,7 +61,7 @@ class Logger {
         const timestamp = new Date().toISOString();
         let content = {timestamp, req};
         content = JSON.stringify(content, replacerFunc()) + '\r\n';
-        fs.appendFile('logAPI.json', content, (err) => {
+        fs.appendFile('logAPI.txt', content, (err) => {
             if (err) {
                 console.log('Error in logger:' + err);
             }
@@ -71,11 +71,12 @@ class Logger {
 }
 
 
-module.exports = class Singleton {
+module.exports = class Singleton extends Logger {
     /**
      * constructor
      */
     constructor() {
+        super();
         if (!Singleton.instance) {
             Singleton.instance = new Logger();
         }
