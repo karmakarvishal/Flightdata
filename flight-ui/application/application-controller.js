@@ -25,6 +25,36 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', '$timeout', function (
         signInButton.addEventListener('click', () => {
             container.classList.remove('right-panel-active');
         });
+
+        function getDaySting(index) {
+            var weekday = "--";
+            switch (index) {
+                case 0:
+                    weekday = "Sunday";
+                    break;
+                case 1:
+                    weekday = "Monday";
+                    break;
+                case 2:
+                    weekday = "Tuesay";
+                    break;
+                case 3:
+                    weekday = "Wednesday";
+                    break;
+                case 4:
+                    weekday = "Thursday";
+                    break;
+                case 5:
+                    weekday = "Friday";
+                    break;
+                case 6:
+                    weekday = "Saturday";
+                    break;
+                default:
+                    break;
+            }
+            return weekday;
+        }
         const populateTable = (flights) => {
             console.log("populate table: ", flights);
             $(".tbl-row-flight").remove();
@@ -34,14 +64,21 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', '$timeout', function (
                 const tableIcon = document.createElement('td');
                 tableIcon.textContent = '✈';
                 tableRow.append(tableIcon);
-
-                const flightDetails = {
+                var flightDetails = {
                     time: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_time : flight.arr_time,
                     destination: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_iata.toUpperCase() : flight.arr_iata.toUpperCase(),
                     flight: flight.flight_number.toUpperCase(),
                     gate: ($scope.flightUiEditObject.selectedArrDepType === 'departures') ? flight.dep_gate : flight.arr_gate,
                     remarks: flight.status.toUpperCase()
                 };
+                var time = flightDetails.time;
+                if (time) {
+                    var date = moment(flightDetails.time);
+                    var day = date.day();
+                    var weekday = getDaySting(day);
+                    var time = moment(date).format("hh:mm");
+                    flightDetails.time = weekday + "," + time;
+                }
                 flightDetails.time = flightDetails.time ? flightDetails.time : "--";
                 flightDetails.destination = flightDetails.destination ? flightDetails.destination : "--";
                 flightDetails.flight = flightDetails.flight ? flightDetails.flight : "--";
@@ -270,6 +307,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', '$timeout', function (
                         .then(function (result) {
                             console.log("updateMapping: ", result);
                             getAllUsers();
+                            $('#myModal').modal('hide');
                         })
                         .catch(function (ex) {
                             console.log(ex);
@@ -288,7 +326,7 @@ app.controller('AppCtrl', ['$scope', 'flightDataFactory', '$timeout', function (
                 if (diffMin > 10) {
                     $scope.screens = {
                         login: true,
-                        flight: false,
+                        flight: false
                     };
                 }
                 else {
